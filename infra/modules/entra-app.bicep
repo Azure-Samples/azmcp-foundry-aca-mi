@@ -43,6 +43,9 @@ resource entraApp 'Microsoft.Graph/applications@v1.0' = {
       allowedMemberTypes: ['Application']
     }
   ]
+  api: {
+    requestedAccessTokenVersion: 2
+  }
 }
 
 resource entraAppUpdate 'Microsoft.Graph/applications@v1.0' = {
