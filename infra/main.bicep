@@ -13,6 +13,9 @@ param storageResourceId string
 @description('Microsoft Foundry project resource ID for assigning Entra App role to Foundry project managed identity')
 param foundryProjectResourceId string
 
+@description('Service Management Reference for the Entra Application. Optional GUID used to link the app to a service in Azure.')
+param serviceManagementReference string = ''
+
 @description('Application Insights connection string. Use "DISABLED" to disable telemetry, or provide existing connection string. If omitted, new App Insights will be created.')
 param appInsightsConnectionString string = ''
 
@@ -36,6 +39,7 @@ module entraApp 'modules/entra-app.bicep' = {
   params: {
     entraAppDisplayName: entraAppDisplayName
     entraAppUniqueName: entraAppUniqueName
+    serviceManagementReference: serviceManagementReference
   }
 }
 

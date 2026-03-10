@@ -86,3 +86,33 @@ The `azd` template consists of the following Bicep modules:
 - **`foundry-role-assignment-entraapp.bicep`** - Assigns Entra App role to the managed identity of the Microsoft Foundry project specified by the input Microsoft Foundry resource ID for the Azure MCP Server access
 - **`application-insights.bicep`** - Deploys Application Insights for telemetry and monitoring (conditional deployment)
 
+## Common Errors
+
+### ServiceManagementReference field is required
+
+```json
+{ 
+  "error": { 
+    "code":"BadRequest",
+    "target":"/resources/entraApp",
+    "message":"ServiceManagementReference field is required for ..."
+  }
+}
+```
+
+This occurs when deploying (`azd up`) an Entra app registration without a `serviceManagementReference`. The Microsoft Graph API requires this field if your organization requires a Service Tree ID that the app should be attributed to.
+
+**Fix:** Pass the GUID via the `serviceManagementReference` parameter. Add it to [infra/main.parameters.json](infra/main.parameters.json):
+
+```json
+{
+  "parameters": {
+    "serviceManagementReference": {
+      "value": "<your-guid>"
+    }
+  }
+}
+```
+
+Then re-run `azd up`.
+

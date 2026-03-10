@@ -150,6 +150,16 @@ resource containerApp 'Microsoft.App/containerApps@2024-03-01' = {
               name: 'AZURE_MCP_DANGEROUSLY_DISABLE_HTTPS_REDIRECTION'
               value: 'true'
             }
+            // SECURITY NOTE: AZURE_MCP_DANGEROUSLY_ENABLE_FORWARDED_HEADERS enables the server to read the original
+            // client scheme from X-Forwarded-Proto. Without this, the server behind a TLS-terminating reverse proxy
+            // (e.g., Azure Container Apps) advertises http URLs in its OAuth Protected Resource Metadata, causing a
+            // scheme mismatch that breaks the authorization flow for PRM-reliant clients like VS Code.
+            // This is set so that, in addition to Foundry, clients like VS Code can also connect to the MCP server.
+            // If you don't plan to connect from VS Code or other PRM-reliant clients, this can be safely removed.
+            {
+              name: 'AZURE_MCP_DANGEROUSLY_ENABLE_FORWARDED_HEADERS'
+              value: 'true'
+            }
           ], !empty(appInsightsConnectionString) ? [
             {
               name: 'APPLICATIONINSIGHTS_CONNECTION_STRING'

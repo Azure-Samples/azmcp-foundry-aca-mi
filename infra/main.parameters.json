@@ -19,6 +19,9 @@
     },
     "appInsightsConnectionString": {
       "value": "DISABLED"
+    },
+    "serviceManagementReference": {
+      "value": ""
     }
   }
 }
