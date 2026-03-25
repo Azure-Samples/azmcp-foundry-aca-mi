@@ -2,7 +2,7 @@
 
 name: azure-mcp-server
 metadata:
-  template: azure-mcp-server@0.0.1-beta
+  template: azmcp-foundry-aca-mi@0.0.1-beta
 
 infra:
   provider: bicep
