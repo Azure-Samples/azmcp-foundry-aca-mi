@@ -19,6 +19,29 @@ param serviceManagementReference string = ''
 @description('Application Insights connection string. Use "DISABLED" to disable telemetry, or provide existing connection string. If omitted, new App Insights will be created.')
 param appInsightsConnectionString string = ''
 
+// Validate storageResourceId format
+// Expected: /subscriptions/{sub}/resourceGroups/{rg}/providers/Microsoft.Storage/storageAccounts/{name}
+var storageIdLower = toLower(storageResourceId)
+var storageHasCorrectSegmentCount = length(split(storageResourceId, '/')) == 9
+var storageStartsWithSubscriptions = startsWith(storageIdLower, '/subscriptions/')
+var storageHasProvider = contains(storageIdLower, '/providers/microsoft.storage/storageaccounts/')
+var isValidStorageResourceId = storageHasCorrectSegmentCount && storageStartsWithSubscriptions && storageHasProvider
+
+// Expected format: /subscriptions/{sub}/resourceGroups/{rg}/providers/Microsoft.Storage/storageAccounts/{name}
+assert storageResourceId_has_invalid_format = isValidStorageResourceId
+
+// Validate foundryProjectResourceId format
+// Expected: /subscriptions/{sub}/resourceGroups/{rg}/providers/Microsoft.CognitiveServices/accounts/{account}/projects/{project}
+var foundryIdLower = toLower(foundryProjectResourceId)
+var hasCorrectSegmentCount = length(split(foundryProjectResourceId, '/')) == 11
+var startsWithSubscriptions = startsWith(foundryIdLower, '/subscriptions/')
+var hasCognitiveServicesProvider = contains(foundryIdLower, '/providers/microsoft.cognitiveservices/accounts/')
+var hasProjectsSegment = contains(foundryIdLower, '/projects/')
+var isValidFoundryProjectResourceId = hasCorrectSegmentCount && startsWithSubscriptions && hasCognitiveServicesProvider && hasProjectsSegment
+
+// Expected format: /subscriptions/{sub}/resourceGroups/{rg}/providers/Microsoft.CognitiveServices/accounts/{account}/projects/{project}
+assert foundryProjectResourceId_has_invalid_format = isValidFoundryProjectResourceId
+
 // Deploy Application Insights if appInsightsConnectionString is empty and not DISABLED
 var appInsightsName = '${acaName}-insights'
 //
