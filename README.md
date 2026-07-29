@@ -4,6 +4,8 @@ This document explains how to deploy the [Azure MCP Server 2.0-beta](https://mcr
 
 This reference Azure Developer CLI (azd) template shows how to host the server on Azure Container Apps with storage tools enabled, using managed identity authentication for secure access to Azure Storage.
 
+> If you have feedback for this template, please open an issue in the [microsoft/mcp](https://github.com/microsoft/mcp) repo.
+
 ## Prerequisites
 
 - Azure subscription with **Owner** or **User Access Administrator** permissions
